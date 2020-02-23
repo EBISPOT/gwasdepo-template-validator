@@ -1,0 +1,9 @@
+validator:
+  error-messages: error_messages.txt
+  ss-content-validation:
+    enabled: true
+    sheet: study
+    column: study_accession
+  default-schema:
+    version: 1.0
+    file: schema_v1.json

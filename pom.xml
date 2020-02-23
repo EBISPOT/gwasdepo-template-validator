@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>uk.ac.ebi.spot.gwasdepo</groupId>
+    <artifactId>gwasdepo-template-validator</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>GWAS Deposition App Template Validator</name>
+
+    <parent>
+        <groupId>uk.ac.ebi.spot.gwasdepo</groupId>
+        <artifactId>gwasdepo-master</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <scm>
+        <connection>scm:git:https://github.com/EBISPOT/gwasdepo-template-validator.git</connection>
+        <developerConnection>scm:git:https://github.com/EBISPOT/gwasdepo-template-validator.git</developerConnection>
+        <url>https://github.com/EBISPOT/gwasdepo-template-validator.git</url>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>spot</id>
+            <name>Releases</name>
+            <url>https://www.ebi.ac.uk/spot/nexus/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>spot</id>
+            <name>Snapshot</name>
+            <url>https://www.ebi.ac.uk/spot/nexus/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>uk.ac.ebi.spot.gwasdepo</groupId>
+            <artifactId>gwasdepo-commons</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.monitorjbl</groupId>
+            <artifactId>xlsx-streamer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ognl</groupId>
+            <artifactId>ognl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.1.8.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
