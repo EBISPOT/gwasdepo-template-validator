@@ -24,7 +24,7 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
 
     @Override
     public List<String> validateSheet(Sheet sheet, int headerSize, ValidationConfiguration validationConfiguration,
-                                      Map<String, String> studyTags, Map<Integer, String> columnIndex,
+                                      Map<String, Integer> studyTags, Map<Integer, String> columnIndex,
                                       boolean studySheetEnforced) {
         if (columnIndex.isEmpty()) {
             return processNoMappingErrorMessage();
@@ -35,7 +35,8 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
         boolean valid = true;
         int count = headerSize;
         Map<Pair<String, ErrorMessage>, List<Integer>> errorMap = new HashMap<>();
-        List<Integer> orphanStudies = new ArrayList<>();
+        List<String> orphanStudies = new ArrayList<>();
+        List<String> duplicatedStudyTags = new ArrayList<>();
 
         while (rowIterator.hasNext()) {
             count++;
@@ -60,7 +61,7 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                 }
                 if (!rowValidator.isEmpty()) {
                     if (!handleValidRow(rowValidator.getStudyTag(), studyTags, sheet.getSheetName())) {
-                        orphanStudies.add(count);
+                        orphanStudies.add(Integer.toString(count));
                         valid = false;
                     }
                 }
@@ -68,10 +69,19 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
             }
         }
         log.info("Processed total {} rows.", count);
-        Pair<String, List<Integer>> generalError = null;
+        Pair<String, List<String>> generalError = null;
         if (studySheetEnforced && studyTags.isEmpty()) {
             valid = false;
             generalError = Pair.of(ErrorType.NO_DATA, new ArrayList<>());
+        }
+        for (String studyTag : studyTags.keySet()) {
+            if (studyTags.get(studyTag) != 1) {
+                duplicatedStudyTags.add(studyTag);
+            }
+        }
+        if (!duplicatedStudyTags.isEmpty()) {
+            valid = false;
+            generalError = Pair.of(ErrorType.NON_UNIQUE_STUDY_TAG + "!", duplicatedStudyTags);
         }
 
         if (valid) {

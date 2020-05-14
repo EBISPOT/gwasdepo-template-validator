@@ -14,16 +14,16 @@ import java.util.Map;
 public interface TemplateValidator {
 
     List<String> validateSheet(Sheet sheet, int headerSize, ValidationConfiguration validationConfiguration,
-                               Map<String, String> studyTags, Map<Integer, String> columnIndex,
+                               Map<String, Integer> studyTags, Map<Integer, String> columnIndex,
                                boolean studySheetEnforced);
 
-    boolean handleValidRow(String studyTag, Map<String, String> studyTags, String sheetName);
+    boolean handleValidRow(String studyTag, Map<String, Integer> studyTags, String sheetName);
 
     void convertSheet(Sheet sheet, ValidationConfiguration validationConfiguration, Map<Integer, String> columnIndex, SubmissionDocument submissionDocument);
 
     void convertRow(Row row, Map<String, CellValidation> columnValidation, Map<Integer, String> columnIndex, SubmissionDocument submissionDocument);
 
-    List<String> processErrorMessages(Pair<String, List<Integer>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap);
+    List<String> processErrorMessages(Pair<String, List<String>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap);
 
     List<String> processNoMappingErrorMessage();
 

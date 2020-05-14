@@ -1,7 +1,6 @@
 package uk.ac.ebi.spot.gwas.template.validator.component.validator;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,6 @@ import uk.ac.ebi.spot.gwas.template.validator.domain.SubmissionDocument;
 import uk.ac.ebi.spot.gwas.template.validator.util.ErrorMessageTemplateProcessor;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +23,11 @@ public class StudyValidator extends AbstractTemplateValidator implements Templat
     private ErrorMessageTemplateProcessor errorMessageTemplateProcessor;
 
     @Override
-    public boolean handleValidRow(String studyTag, Map<String, String> studyTags, String sheetName) {
+    public boolean handleValidRow(String studyTag, Map<String, Integer> studyTags, String sheetName) {
         if (studyTag != null) {
-            studyTags.put(studyTag.toLowerCase(), "");
+            int count = studyTags.containsKey(studyTag.toLowerCase()) ? studyTags.get(studyTag.toLowerCase()) : 0;
+            count++;
+            studyTags.put(studyTag.toLowerCase(), count);
         }
         return true;
     }
@@ -44,7 +44,7 @@ public class StudyValidator extends AbstractTemplateValidator implements Templat
 
 
     @Override
-    public List<String> processErrorMessages(Pair<String, List<Integer>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap) {
+    public List<String> processErrorMessages(Pair<String, List<String>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap) {
         return errorMessageTemplateProcessor.process(generalError, errorMap);
     }
 

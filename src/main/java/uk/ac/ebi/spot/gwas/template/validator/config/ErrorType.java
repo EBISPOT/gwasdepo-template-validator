@@ -6,6 +6,8 @@ public class ErrorType {
 
     public static final String ORPHAN_STUDY = "ORPHAN_STUDY";
 
+    public static final String NON_UNIQUE_STUDY_TAG = "NON_UNIQUE_STUDY_TAG";
+
     public static final String NO_DATA = "NO_DATA";
 
     public static final String INCORRECT_VALUE_RANGE = "INCORRECT_VALUE_RANGE";

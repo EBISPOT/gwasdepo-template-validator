@@ -1,7 +1,6 @@
 package uk.ac.ebi.spot.gwas.template.validator.util;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,14 @@ public class ValidationUtil {
 
     public static String trimZeros(String s) {
         return s.contains(".") ? s.replaceAll("0*$", "").replaceAll("\\.$", "") : s;
+    }
+
+    public static List<Integer> convert(List<String> list) {
+        List<Integer> result = new ArrayList<>();
+        for (String s : list) {
+            result.add(Integer.parseInt(s));
+        }
+        return result;
     }
 
     public static List<String> compress(List<Integer> list) {

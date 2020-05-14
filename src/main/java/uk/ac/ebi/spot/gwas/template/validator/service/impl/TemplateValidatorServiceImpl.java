@@ -40,10 +40,13 @@ public class TemplateValidatorServiceImpl implements TemplateValidatorService {
                                       boolean studySheetEnforced) {
         log.info("Validating template ...");
         Map<String, List<String>> errors = new LinkedHashMap<>();
-        Map<String, String> studyTagMap;
+        Map<String, Integer> studyTagMap;
         try {
             log.info("Reading studies sheet ...");
             studyTagMap = readStudiesSheet(submissionTemplateReader, errors, templateSchemaDto, studySheetEnforced);
+            for (String entry : studyTagMap.keySet()) {
+                studyTagMap.put(entry, 1);
+            }
             log.info("Found {} entries in study map.", studyTagMap.size());
         } catch (Exception e) {
             log.error("Unable to process studies sheet: {}", e.getMessage(), e);
@@ -77,13 +80,13 @@ public class TemplateValidatorServiceImpl implements TemplateValidatorService {
         return new ValidationOutcome(errors.isEmpty(), errors);
     }
 
-    private Map<String, String> readStudiesSheet(SubmissionTemplateReader submissionTemplateReader,
-                                                 Map<String, List<String>> errors,
-                                                 TemplateSchemaDto templateSchemaDto,
-                                                 boolean studySheetEnforced) throws JsonProcessingException {
+    private Map<String, Integer> readStudiesSheet(SubmissionTemplateReader submissionTemplateReader,
+                                                  Map<String, List<String>> errors,
+                                                  TemplateSchemaDto templateSchemaDto,
+                                                  boolean studySheetEnforced) throws JsonProcessingException {
         Iterator<Sheet> sheets = submissionTemplateReader.sheets();
 
-        Map<String, String> studyTagMap = new HashMap<>();
+        Map<String, Integer> studyTagMap = new HashMap<>();
         while (sheets.hasNext()) {
             Sheet sheet = sheets.next();
             log.info("Reading sheet: {}", sheet.getSheetName());
@@ -103,7 +106,7 @@ public class TemplateValidatorServiceImpl implements TemplateValidatorService {
         return studyTagMap;
     }
 
-    private List<String> processSheet(Sheet sheet, String validatorComponent, Map<String, String> studyTagMap,
+    private List<String> processSheet(Sheet sheet, String validatorComponent, Map<String, Integer> studyTagMap,
                                       TemplateSheetDto templateSheetDto, int headerSize, boolean studySheetEnforced) throws JsonProcessingException {
         log.info("Processing sheet: {}", sheet.getSheetName());
         TemplateValidator templateValidator = null;
