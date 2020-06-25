@@ -189,7 +189,7 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                                 field.set(object, value);
                             }
                         } else {
-                            field.set(object, cell.getStringCellValue());
+                            field.set(object, cell.getStringCellValue() != null ? cell.getStringCellValue().trim() : cell.getStringCellValue());
                         }
                     }
                 } else {

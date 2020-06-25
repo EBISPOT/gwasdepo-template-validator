@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.5",
   "study": {
     "triggerRow": "Add your data below this line",
     "studyTagColumnName": "study_tag",
@@ -10,7 +10,19 @@
         "baseType": "string",
         "columnHeading": "Study tag",
         "required": true,
-        "default": true
+        "default": true,
+        "multivalue": false
+      },
+      {
+        "columnName": "study_accession",
+        "description": "The GWAS Catalog study accession identifying a published study",
+        "baseType": "string",
+        "columnHeading": "Study Accession",
+        "required": false,
+        "default": false,
+        "multivalue": false,
+        "pattern": "^GCST\\d+$",
+        "example": "GCST007280"
       },
       {
         "columnName": "genotyping_technology",
@@ -19,7 +31,8 @@
         "columnHeading": "Genotyping technology",
         "required": true,
         "default": true,
-        "example": "Targeted genotyping array",
+        "multivalue": true,
+        "separator": "|",
         "acceptedValues": [
           "Genome-wide genotyping array",
           "Targeted genotyping array",
@@ -34,7 +47,14 @@
         "columnHeading": "Array manufacturer",
         "required": false,
         "default": true,
-        "example": "Illumina"
+        "multivalue": true,
+        "separator": "|",
+        "example": "Illumina",
+        "acceptedValues": [
+          "Illumina",
+          "Perlegen",
+          "Affymetrix"
+        ]
       },
       {
         "columnName": "array_information",
@@ -43,6 +63,7 @@
         "columnHeading": "Array information",
         "required": false,
         "default": true,
+        "multivalue": false,
         "example": "immunochip"
       },
       {
@@ -52,7 +73,8 @@
         "columnHeading": "Imputation",
         "required": true,
         "default": true,
-        "example": "Yes/No",
+        "multivalue": false,
+        "example": "yes, no",
         "acceptedValues": [
           "Yes",
           "No"
@@ -64,7 +86,8 @@
         "baseType": "integer",
         "columnHeading": "Variant count",
         "required": true,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "statistical_model",
@@ -72,7 +95,8 @@
         "baseType": "string",
         "columnHeading": "Statistical model",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "study_description",
@@ -80,16 +104,27 @@
         "baseType": "string",
         "columnHeading": "Study description",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "trait",
         "description": "The trait under investigation",
         "baseType": "string",
-        "columnHeading": "Trait",
+        "columnHeading": "Reported trait",
         "required": true,
         "default": true,
+        "multivalue": false,
         "example": "reticulocyte count"
+      },
+      {
+        "columnName": "sample_description",
+        "description": "Description of the discovery sample.",
+        "baseType": "string",
+        "columnHeading": "Discovery sample",
+        "required": false,
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "efo_trait",
@@ -98,6 +133,8 @@
         "columnHeading": "Mapped trait",
         "required": false,
         "default": false,
+        "multivalue": true,
+        "separator": "|",
         "example": "EFO_0007986"
       },
       {
@@ -106,7 +143,8 @@
         "baseType": "string",
         "columnHeading": "Background trait",
         "required": false,
-        "default": false,
+        "default": true,
+        "multivalue": false,
         "example": "Nicotine dependence"
       },
       {
@@ -116,32 +154,77 @@
         "columnHeading": "Mapped background trait",
         "required": false,
         "default": false,
+        "multivalue": true,
+        "separator": "|",
         "example": "EFO_0003768"
       },
       {
         "columnName": "summary_statistics_file",
-        "description": "An identifier for the file containing full summary statistics for this study (if available)",
+        "description": "File name of your summary statistics data e.g. my_sumstats.tsv. 'NR' if not providing summary statistics.",
         "baseType": "string",
         "columnHeading": "Summary statistics file",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "checksum",
-        "description": "md5 checksum of the summary stats file",
+        "description": "md5 checksum of the summary stats file.  'NR' if not providing summary statistics.",
         "baseType": "string",
         "columnHeading": "md5 sum",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
+      },
+      {
+        "columnName": "readme_file",
+        "description": "Readme text, this text will be written to a publicly available README.txt file",
+        "baseType": "string",
+        "columnHeading": "Readme file",
+        "required": false,
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "summary_statistics_assembly",
-        "description": "Genome assembly of the summary statitistics",
+        "description": "Genome assembly for the summary statistics. 'NR' if not providing summary statistics.",
         "baseType": "string",
         "columnHeading": "Summary statistics assembly",
         "required": false,
         "default": true,
-        "example": "GRCh38"
+        "multivalue": true,
+        "separator": "|",
+        "example": "GRCh38",
+        "acceptedValues": [
+          "GRCh38",
+          "GRCh37",
+          "NCBI36",
+          "NCBI35",
+          "NCBI34",
+          "NR"
+        ]
+      },
+      {
+        "columnName": "cohort",
+        "description": "Cohort(s) represented in the discovery sample",
+        "baseType": "string",
+        "columnHeading": "Cohort(s)",
+        "required": false,
+        "default": true,
+        "multivalue": true,
+        "separator": "|",
+        "example": "UKBB, FINRISK"
+      },
+      {
+        "columnName": "cohort_id",
+        "description": "Cohort specific identifier(s) issued to this research study",
+        "baseType": "string",
+        "columnHeading": "Cohort specific reference",
+        "required": false,
+        "default": true,
+        "multivalue": true,
+        "separator": "|",
+        "example": "UK Biobank ID"
       }
     ]
   },
@@ -155,7 +238,8 @@
         "baseType": "string",
         "columnHeading": "Study tag",
         "required": true,
-        "default": true
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "haplotype_id",
@@ -163,7 +247,8 @@
         "baseType": "string",
         "columnHeading": "Haplotype ID",
         "required": false,
-        "default": false
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "variant_id",
@@ -171,15 +256,17 @@
         "baseType": "string",
         "columnHeading": "Variant ID",
         "required": true,
-        "default": true
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "pvalue",
         "description": "Reported p-value for variant in scientific notation",
-        "baseType": "string",
+        "baseType": "number",
         "columnHeading": "p-value",
         "required": true,
-        "default": true,
+        "default": false,
+        "multivalue": false,
         "lowerBound": 0,
         "upperBound": 0.00001
       },
@@ -187,9 +274,10 @@
         "columnName": "pvalue_text",
         "description": "Free text to add extra information eg. conditional analysis",
         "baseType": "string",
-        "columnHeading": "Extra information",
+        "columnHeading": "p-value annotation",
         "required": false,
-        "default": true
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "proxy_variant",
@@ -197,7 +285,8 @@
         "baseType": "string",
         "columnHeading": "Proxy variant",
         "required": false,
-        "default": false
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "effect_allele",
@@ -205,8 +294,9 @@
         "baseType": "string",
         "columnHeading": "Effect allele",
         "required": true,
-        "default": true,
-        "pattern": "^[actgACTG]*$"
+        "default": false,
+        "multivalue": false,
+        "pattern": "^[ACTG?-]*$"
       },
       {
         "columnName": "other_allele",
@@ -214,16 +304,18 @@
         "baseType": "string",
         "columnHeading": "Other allele",
         "required": false,
-        "default": true,
-        "pattern": "^[actgACTG]*$"
+        "default": false,
+        "multivalue": false,
+        "pattern": "^[ACTG?-]*$"
       },
       {
         "columnName": "effect_allele_frequency",
         "description": "frequency of the effect allele or haplotype in the control population",
         "baseType": "number",
         "columnHeading": "Effect allele frequency",
-        "required": true,
-        "default": true
+        "required": false,
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "odds_ratio",
@@ -231,23 +323,8 @@
         "baseType": "number",
         "columnHeading": "Odds ratio",
         "required": false,
-        "default": false
-      },
-      {
-        "columnName": "beta",
-        "description": "Effect size from a linear regression for continious traits",
-        "baseType": "number",
-        "columnHeading": "Beta",
-        "required": false,
-        "default": false
-      },
-      {
-        "columnName": "beta_unit",
-        "description": "Beta unit",
-        "baseType": "string",
-        "columnHeading": "Beta unit",
-        "required": false,
-        "default": false
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "ci_lower",
@@ -255,7 +332,8 @@
         "baseType": "number",
         "columnHeading": "CI lower",
         "required": false,
-        "default": false
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "ci_upper",
@@ -263,7 +341,26 @@
         "baseType": "number",
         "columnHeading": "CI upper",
         "required": false,
-        "default": false
+        "default": false,
+        "multivalue": false
+      },
+      {
+        "columnName": "beta",
+        "description": "Effect size from a linear regression for continious traits",
+        "baseType": "number",
+        "columnHeading": "Beta",
+        "required": false,
+        "default": false,
+        "multivalue": false
+      },
+      {
+        "columnName": "beta_unit",
+        "description": "Beta unit",
+        "baseType": "string",
+        "columnHeading": "Beta unit",
+        "required": false,
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "standard_error",
@@ -271,7 +368,8 @@
         "baseType": "number",
         "columnHeading": "Standard error",
         "required": false,
-        "default": false
+        "default": false,
+        "multivalue": false
       }
     ]
   },
@@ -285,15 +383,18 @@
         "baseType": "string",
         "columnHeading": "Study tag",
         "required": true,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "stage",
-        "description": "Indication of the stage of the discovery process",
+        "description": "Stage of the experimental design",
         "baseType": "string",
         "columnHeading": "Stage",
         "required": true,
         "default": true,
+        "multivalue": false,
+        "example": "discovery, replication",
         "acceptedValues": [
           "discovery",
           "replication"
@@ -305,7 +406,8 @@
         "baseType": "integer",
         "columnHeading": "Number of individuals",
         "required": true,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "cases",
@@ -313,7 +415,8 @@
         "baseType": "integer",
         "columnHeading": "Number of cases",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "controls",
@@ -321,7 +424,8 @@
         "baseType": "integer",
         "columnHeading": "Number of controls",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "sample_description",
@@ -330,16 +434,39 @@
         "columnHeading": "Sample description",
         "required": false,
         "default": true,
+        "multivalue": false,
         "example": "sex (males/females), age (adults/children)"
       },
       {
         "columnName": "ancestry_category",
-        "description": "Broad ancestry category that best describes the sample",
+        "description": "Broad ancestry category that best describes the sample. Multiple values can be listed separated by '|'.",
         "baseType": "string",
         "columnHeading": "Ancestry category",
         "required": true,
         "default": true,
-        "example": "European"
+        "multivalue": true,
+        "separator": "|",
+        "example": "European",
+        "acceptedValues": [
+          "Aboriginal Australian",
+          "African American or Afro-Caribbean",
+          "African unspecified",
+          "Asian unspecified",
+          "Central Asian",
+          "Circumpolar peoples",
+          "East Asian",
+          "European",
+          "Greater Middle Eastern (Middle Eastern, North African or Persian)",
+          "Hispanic or Latin American",
+          "Native American",
+          "NR",
+          "Oceanian",
+          "Other",
+          "Other admixed ancestry",
+          "South Asian",
+          "South East Asian",
+          "Sub-Saharan African"
+        ]
       },
       {
         "columnName": "ancestry",
@@ -347,15 +474,17 @@
         "baseType": "string",
         "columnHeading": "Ancestry",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "ancestry_description",
         "description": "For founder or genetically isolated population, provide  description. If multiple founder/genetically isolated populations are included for the same ancestry category separate using \"|\"",
         "baseType": "string",
-        "columnHeading": "Ancestry description",
+        "columnHeading": "Founder/Genetically isolated population description",
         "required": false,
-        "default": true
+        "default": true,
+        "multivalue": false
       },
       {
         "columnName": "country_recruitement",
@@ -364,6 +493,8 @@
         "columnHeading": "Country of recruitment",
         "required": true,
         "default": true,
+        "multivalue": true,
+        "separator": "|",
         "example": "Japan"
       }
     ]
@@ -378,23 +509,27 @@
         "baseType": "string",
         "columnHeading": "Study tag",
         "required": true,
-        "default": false
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "note",
         "description": null,
         "baseType": "string",
         "columnHeading": "Note",
-        "required": true,
-        "default": false
+        "required": false,
+        "default": false,
+        "multivalue": false
       },
       {
         "columnName": "note_subject",
         "description": null,
         "baseType": "string",
         "columnHeading": "Note subject",
-        "required": true,
+        "required": false,
         "default": false,
+        "multivalue": false,
+        "example": "Initial extraction",
         "acceptedValues": [
           "Preliminary review",
           "Review/secondary extraction",
@@ -410,8 +545,10 @@
         "description": null,
         "baseType": "string",
         "columnHeading": "Status",
-        "required": true,
+        "required": false,
         "default": false,
+        "multivalue": false,
+        "example": "private",
         "acceptedValues": [
           "private",
           "public"

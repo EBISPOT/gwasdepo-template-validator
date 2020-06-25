@@ -86,7 +86,7 @@ public class RowValidator {
                                     }
                                 }
                             } else {
-                                value = cell.getStringCellValue();
+                                value = cell.getStringCellValue() != null ? cell.getStringCellValue().trim() : cell.getStringCellValue();
                             }
                         } catch (Exception e) {
                             valid = false;
