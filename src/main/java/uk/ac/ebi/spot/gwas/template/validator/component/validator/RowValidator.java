@@ -100,6 +100,13 @@ public class RowValidator {
                                         new ErrorMessage(ErrorType.MISSING_VALUE, null, null));
                             }
                         }
+                    } else {
+                        value = cell.getStringCellValue() != null ? cell.getStringCellValue().trim() : null;
+                        if (value != null) {
+                            if (value.equalsIgnoreCase("")) {
+                                value = null;
+                            }
+                        }
                     }
                     if (cellValidation.isMultivalue()) {
                         if (cellValidation.getSeparator() != null && value != null) {
