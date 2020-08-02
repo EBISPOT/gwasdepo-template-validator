@@ -47,6 +47,9 @@ public class StudyCellValidationParser implements CellValidationParser {
                 if (templateColumnDto.getUpperBound() != null) {
                     cellValidation.setUpperBound(templateColumnDto.getUpperBound());
                 }
+                if (templateColumnDto.getSize() != null) {
+                    cellValidation.setSize(templateColumnDto.getSize());
+                }
                 List<String> processedValues = null;
                 if (templateColumnDto.getAcceptedValues() != null) {
                     processedValues = new ArrayList<>();

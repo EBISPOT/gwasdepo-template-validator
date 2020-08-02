@@ -108,6 +108,18 @@ public class RowValidator {
                             }
                         }
                     }
+                    if (cellValidation.getSize() != null) {
+                        if (cellValidation.getSize() != -1) {
+                            if (value != null) {
+                                if (value.length() >= cellValidation.getSize()) {
+                                    valid = false;
+                                    errorMessageMap.put(cellValidation.getColumnHeading(),
+                                            new ErrorMessage(ErrorType.INCORRECT_VALUE_SIZE,
+                                                    ErrorType.SIZE, cellValidation.getSize().toString()));
+                                }
+                            }
+                        }
+                    }
                     if (cellValidation.isMultivalue()) {
                         if (cellValidation.getSeparator() != null && value != null) {
                             String separator = "\\" + cellValidation.getSeparator();

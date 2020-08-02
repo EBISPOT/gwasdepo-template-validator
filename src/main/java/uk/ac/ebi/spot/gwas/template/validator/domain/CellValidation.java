@@ -28,6 +28,8 @@ public class CellValidation implements Serializable {
 
     private Double upperBound;
 
+    private Integer size;
+
     private List<String> acceptedValues;
 
     public CellValidation() {
@@ -146,6 +148,14 @@ public class CellValidation implements Serializable {
 
     public void setSeparator(String separator) {
         this.separator = separator;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
     @Override

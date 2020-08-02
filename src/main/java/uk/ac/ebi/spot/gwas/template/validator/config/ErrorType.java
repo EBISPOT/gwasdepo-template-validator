@@ -12,9 +12,13 @@ public class ErrorType {
 
     public static final String INCORRECT_VALUE_RANGE = "INCORRECT_VALUE_RANGE";
 
+    public static final String INCORRECT_VALUE_SIZE = "INCORRECT_VALUE_SIZE";
+
     public static final String ACCEPTED_VALUES = "ACCEPTED_VALUES";
 
     public static final String PATTERN = "PATTERN";
+
+    public static final String SIZE = "SIZE";
 
     public static final String RANGE = "RANGE";
 
