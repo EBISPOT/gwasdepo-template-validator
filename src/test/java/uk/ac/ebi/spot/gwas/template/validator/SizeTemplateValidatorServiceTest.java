@@ -42,8 +42,8 @@ public class SizeTemplateValidatorServiceTest extends IntegrationTest {
         assertFalse(validationOutcome.isValid());
         assertEquals(3, validationOutcome.getErrorMessages().size());
         assertTrue(validationOutcome.getErrorMessages().containsKey("study"));
-        assertEquals("Column 'Study tag' in row(s) [5] contains a value with a size larger than accepted. Accepted value size should is: '255'", validationOutcome.getErrorMessages().get("study").get(0));
-        assertEquals("Column 'md5 sum' in row(s) [5] contains a value with a size larger than accepted. Accepted value size should is: '50'", validationOutcome.getErrorMessages().get("study").get(1));
+        assertEquals("Column 'Study tag' in row(s) [5] contains a value with a size larger than accepted. Accepted size is less than '255' characters.", validationOutcome.getErrorMessages().get("study").get(0));
+        assertEquals("Column 'md5 sum' in row(s) [5] contains a value with a size larger than accepted. Accepted size is less than '50' characters.", validationOutcome.getErrorMessages().get("study").get(1));
         submissionTemplateReader.close();
     }
 }
