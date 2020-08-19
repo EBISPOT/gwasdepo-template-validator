@@ -189,7 +189,41 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                                 field.set(object, value);
                             }
                         } else {
-                            field.set(object, cell.getStringCellValue() != null ? cell.getStringCellValue().trim() : cell.getStringCellValue());
+                            if (cell.getStringCellValue() != null) {
+                                if (cellValidation.getAcceptedValues() != null) {
+                                    String finalValue = "";
+                                    if (cellValidation.getSeparator() != null) {
+                                        String separator = "\\" + cellValidation.getSeparator();
+                                        String[] multiValues = cell.getStringCellValue().trim().split(separator);
+                                        for (String multiValue : multiValues) {
+                                            multiValue = multiValue.trim();
+                                            if (!multiValue.equalsIgnoreCase("")) {
+                                                String actualValue = findActualValue(cellValidation.getAcceptedValues(), multiValue.toLowerCase());
+
+                                                if (actualValue != null) {
+                                                    finalValue += actualValue + cellValidation.getSeparator();
+                                                }
+                                            }
+                                        }
+                                        if (finalValue.endsWith(cellValidation.getSeparator())) {
+                                            finalValue = finalValue.substring(0, finalValue.length() - cellValidation.getSeparator().length()).trim();
+                                        }
+                                    } else {
+                                        String val = cell.getStringCellValue().trim();
+                                        if (!val.equals("")) {
+                                            String actualValue = findActualValue(cellValidation.getAcceptedValues(), val.toLowerCase());
+                                            if (actualValue != null) {
+                                                finalValue = actualValue;
+                                            }
+                                        }
+                                    }
+                                    field.set(object, finalValue);
+                                } else {
+                                    field.set(object, cell.getStringCellValue().trim());
+                                }
+                            } else {
+                                field.set(object, cell.getStringCellValue());
+                            }
                         }
                     }
                 } else {
@@ -255,6 +289,19 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String findActualValue(Map<String, List<String>> acceptedValues, String value) {
+        for (String key : acceptedValues.keySet()) {
+            if (key.equalsIgnoreCase(value)) {
+                return key;
+            }
+            if (acceptedValues.get(key).contains(value)) {
+                return key;
+            }
+        }
+
+        return null;
     }
 
 }
