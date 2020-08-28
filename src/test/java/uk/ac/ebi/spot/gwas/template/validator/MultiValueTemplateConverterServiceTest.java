@@ -50,5 +50,4 @@ public class MultiValueTemplateConverterServiceTest extends IntegrationTest {
         assertEquals("U.K.|U.S.", submissionDocument.getSampleEntries().get(0).getCountry_recruitement());
         submissionTemplateReader.close();
     }
-
 }

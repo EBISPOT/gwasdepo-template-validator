@@ -6,6 +6,14 @@ import java.util.List;
 
 public class ValidationUtil {
 
+    public static String trimSpaces(String s) {
+        String result = s.trim();
+        result = result.replaceAll("\\u00A0", "");
+        result = result.replaceAll("\\u2007", "");
+        result = result.replaceAll("\\u202F", "");
+        return result;
+    }
+
     public static String trimZeros(String s) {
         return s.contains(".") ? s.replaceAll("0*$", "").replaceAll("\\.$", "") : s;
     }

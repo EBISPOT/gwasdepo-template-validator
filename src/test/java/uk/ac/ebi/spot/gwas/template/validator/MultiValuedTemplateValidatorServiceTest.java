@@ -13,12 +13,15 @@ import uk.ac.ebi.spot.gwas.template.validator.util.SubmissionTemplateReader;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MultiValuedTemplateValidatorServiceTest extends IntegrationTest {
 
     private final static String[] TEST_FILES = new String[]{
-            "multi_country.xlsx"
+            "multi_country.xlsx",
+            "no_sample.xlsx"
     };
 
     private final static String SCHEMA_FILE = "schema_v1.6m.json";
@@ -40,6 +43,18 @@ public class MultiValuedTemplateValidatorServiceTest extends IntegrationTest {
         SubmissionTemplateReader submissionTemplateReader = getForFile(TEST_FILES, 0);
         ValidationOutcome validationOutcome = templateValidatorService.validate(submissionTemplateReader, templateSchemaDto, true);
         assertTrue(validationOutcome.isValid());
+        submissionTemplateReader.close();
+    }
+
+    @Test
+    public void shouldNotValidateEmptySampleSheet() throws IOException {
+        SubmissionTemplateReader submissionTemplateReader = getForFile(TEST_FILES, 1);
+        ValidationOutcome validationOutcome = templateValidatorService.validate(submissionTemplateReader, templateSchemaDto, true);
+        assertFalse(validationOutcome.isValid());
+        assertEquals(1, validationOutcome.getErrorMessages().size());
+        assertTrue(validationOutcome.getErrorMessages().containsKey("sample"));
+        assertEquals(1, validationOutcome.getErrorMessages().get("sample").size());
+        assertEquals("No sample data provided although studies are present.", validationOutcome.getErrorMessages().get("sample").get(0));
         submissionTemplateReader.close();
     }
 }

@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.spot.gwas.template.validator.config.ErrorType;
+import uk.ac.ebi.spot.gwas.template.validator.config.ValidatorConstants;
 import uk.ac.ebi.spot.gwas.template.validator.domain.CellValidation;
 import uk.ac.ebi.spot.gwas.template.validator.domain.ErrorMessage;
 import uk.ac.ebi.spot.gwas.template.validator.domain.SubmissionDocument;
@@ -34,6 +35,7 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
         boolean ready = false;
         boolean valid = true;
         int count = headerSize;
+        int actualRowCount = 0;
         Map<Pair<String, ErrorMessage>, List<Integer>> errorMap = new HashMap<>();
         List<String> orphanStudies = new ArrayList<>();
         List<String> duplicatedStudyTags = new ArrayList<>();
@@ -66,6 +68,9 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                     }
                 }
 
+                if (valid) {
+                    actualRowCount++;
+                }
             }
         }
         log.info("Processed total {} rows.", count);
@@ -74,6 +79,11 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
             valid = false;
             generalError = Pair.of(ErrorType.NO_DATA, new ArrayList<>());
         }
+        if (sheet.getSheetName().equalsIgnoreCase(ValidatorConstants.SAMPLE) && !studyTags.isEmpty() && valid && actualRowCount == 0) {
+            valid = false;
+            generalError = Pair.of(ErrorType.NO_SAMPLE_DATA, new ArrayList<>());
+        }
+
         for (String studyTag : studyTags.keySet()) {
             if (studyTags.get(studyTag) != 1) {
                 duplicatedStudyTags.add(studyTag);
@@ -196,7 +206,7 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                                         String separator = "\\" + cellValidation.getSeparator();
                                         String[] multiValues = cell.getStringCellValue().trim().split(separator);
                                         for (String multiValue : multiValues) {
-                                            multiValue = multiValue.trim();
+                                            multiValue = ValidationUtil.trimSpaces(multiValue);
                                             if (!multiValue.equalsIgnoreCase("")) {
                                                 String actualValue = findActualValue(cellValidation.getAcceptedValues(), multiValue.toLowerCase());
 
@@ -209,7 +219,7 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                                             finalValue = finalValue.substring(0, finalValue.length() - cellValidation.getSeparator().length()).trim();
                                         }
                                     } else {
-                                        String val = cell.getStringCellValue().trim();
+                                        String val = ValidationUtil.trimSpaces(cell.getStringCellValue());
                                         if (!val.equals("")) {
                                             String actualValue = findActualValue(cellValidation.getAcceptedValues(), val.toLowerCase());
                                             if (actualValue != null) {
@@ -219,10 +229,10 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                                     }
                                     field.set(object, finalValue);
                                 } else {
-                                    field.set(object, cell.getStringCellValue().trim());
+                                    field.set(object, ValidationUtil.trimSpaces(cell.getStringCellValue()));
                                 }
                             } else {
-                                field.set(object, cell.getStringCellValue());
+                                field.set(object, ValidationUtil.trimSpaces(cell.getStringCellValue()));
                             }
                         }
                     }

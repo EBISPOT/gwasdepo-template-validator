@@ -20,3 +20,4 @@ LABEL_SAMPLE=Samples
 LABEL_NOTES=Notes
 NO_MAPPING=Invalid file uploaded. Please download a new template from the submission page and try again.
 NO_DATA=No studies have been provided.
+NO_SAMPLE_DATA=No sample data provided although studies are present.
