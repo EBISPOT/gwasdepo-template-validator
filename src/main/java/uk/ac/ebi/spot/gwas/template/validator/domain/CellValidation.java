@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @EqualsAndHashCode
 public class CellValidation implements Serializable {
@@ -28,7 +29,11 @@ public class CellValidation implements Serializable {
 
     private Double upperBound;
 
-    private List<String> acceptedValues;
+    private Integer size;
+
+    private Map<String, List<String>> acceptedValues;
+
+    private List<String> acceptedValuesCore;
 
     public CellValidation() {
 
@@ -57,15 +62,6 @@ public class CellValidation implements Serializable {
         this.baseType = baseType;
         this.required = required;
         this.pattern = pattern;
-    }
-
-    public CellValidation(String columnName, String baseType, String columnHeading, boolean required,
-                          List<String> acceptedValues) {
-        this.columnName = columnName;
-        this.columnHeading = columnHeading;
-        this.baseType = baseType;
-        this.required = required;
-        this.acceptedValues = acceptedValues;
     }
 
     public String getColumnName() {
@@ -116,11 +112,11 @@ public class CellValidation implements Serializable {
         this.upperBound = upperBound;
     }
 
-    public List<String> getAcceptedValues() {
+    public Map<String, List<String>> getAcceptedValues() {
         return acceptedValues;
     }
 
-    public void setAcceptedValues(List<String> acceptedValues) {
+    public void setAcceptedValues(Map<String, List<String>> acceptedValues) {
         this.acceptedValues = acceptedValues;
     }
 
@@ -146,6 +142,22 @@ public class CellValidation implements Serializable {
 
     public void setSeparator(String separator) {
         this.separator = separator;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public List<String> getAcceptedValuesCore() {
+        return acceptedValuesCore;
+    }
+
+    public void setAcceptedValuesCore(List<String> acceptedValuesCore) {
+        this.acceptedValuesCore = acceptedValuesCore;
     }
 
     @Override

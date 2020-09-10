@@ -6,13 +6,21 @@ public class ErrorType {
 
     public static final String ORPHAN_STUDY = "ORPHAN_STUDY";
 
+    public static final String NON_UNIQUE_STUDY_TAG = "NON_UNIQUE_STUDY_TAG";
+
     public static final String NO_DATA = "NO_DATA";
 
+    public static final String NO_SAMPLE_DATA = "NO_SAMPLE_DATA";
+
     public static final String INCORRECT_VALUE_RANGE = "INCORRECT_VALUE_RANGE";
+
+    public static final String INCORRECT_VALUE_SIZE = "INCORRECT_VALUE_SIZE";
 
     public static final String ACCEPTED_VALUES = "ACCEPTED_VALUES";
 
     public static final String PATTERN = "PATTERN";
+
+    public static final String SIZE = "SIZE";
 
     public static final String RANGE = "RANGE";
 

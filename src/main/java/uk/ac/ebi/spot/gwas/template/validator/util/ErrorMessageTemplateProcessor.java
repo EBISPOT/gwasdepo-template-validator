@@ -1,5 +1,6 @@
 package uk.ac.ebi.spot.gwas.template.validator.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class ErrorMessageTemplateProcessor {
         return result;
     }
 
-    public List<String> process(Pair<String, List<Integer>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap) {
+    public List<String> process(Pair<String, List<String>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap) {
         List<String> result = new ArrayList<>();
         Map<String, String> contextMap;
         for (Pair<String, ErrorMessage> messagePair : errorMap.keySet()) {
@@ -59,10 +60,17 @@ public class ErrorMessageTemplateProcessor {
         }
         if (generalError != null) {
             contextMap = new HashMap<>();
+            String head = generalError.getLeft();
             if (!generalError.getRight().isEmpty()) {
-                contextMap.put(ErrorType.CTX_ROW, ValidationUtil.compress(generalError.getRight()).toString());
+                if (head.endsWith("!")) {
+                    head = head.substring(0, head.length() - 1);
+                    contextMap.put(ErrorType.CTX_VALUE, StringUtils.join(generalError.getRight(), ";"));
+                } else {
+                    List<Integer> converted = ValidationUtil.convert(generalError.getRight());
+                    contextMap.put(ErrorType.CTX_ROW, ValidationUtil.compress(converted).toString());
+                }
             }
-            result.add(processMessage(generalError.getLeft(), contextMap));
+            result.add(processMessage(head, contextMap));
         }
 
         /*

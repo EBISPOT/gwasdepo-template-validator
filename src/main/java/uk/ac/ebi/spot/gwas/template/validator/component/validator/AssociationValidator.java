@@ -23,7 +23,7 @@ public class AssociationValidator extends AbstractTemplateValidator implements T
     private ErrorMessageTemplateProcessor errorMessageTemplateProcessor;
 
     @Override
-    public boolean handleValidRow(String studyTag, Map<String, String> studyTags, String sheetName) {
+    public boolean handleValidRow(String studyTag, Map<String, Integer> studyTags, String sheetName) {
         if (studyTag == null) {
             return false;
         }
@@ -45,7 +45,7 @@ public class AssociationValidator extends AbstractTemplateValidator implements T
     }
 
     @Override
-    public List<String> processErrorMessages(Pair<String, List<Integer>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap) {
+    public List<String> processErrorMessages(Pair<String, List<String>> generalError, Map<Pair<String, ErrorMessage>, List<Integer>> errorMap) {
         return errorMessageTemplateProcessor.process(generalError, errorMap);
     }
 

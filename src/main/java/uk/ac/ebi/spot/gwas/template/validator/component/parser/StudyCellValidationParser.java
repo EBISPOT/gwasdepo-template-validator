@@ -47,13 +47,40 @@ public class StudyCellValidationParser implements CellValidationParser {
                 if (templateColumnDto.getUpperBound() != null) {
                     cellValidation.setUpperBound(templateColumnDto.getUpperBound());
                 }
-                List<String> processedValues = null;
+                if (templateColumnDto.getSize() != null) {
+                    cellValidation.setSize(templateColumnDto.getSize());
+                }
+                Map<String, List<String>> processedValues = null;
+                List<String> acceptedValuesCore = new ArrayList<>();
                 if (templateColumnDto.getAcceptedValues() != null) {
-                    processedValues = new ArrayList<>();
+                    processedValues = new LinkedHashMap<>();
                     for (String acceptedValue : templateColumnDto.getAcceptedValues()) {
-                        processedValues.add(acceptedValue);
+                        List<String> values = new ArrayList<>();
+                        if (acceptedValue.contains(":")) {
+                            String[] parts = acceptedValue.split(":");
+                            String head = parts[0].trim();
+                            values.add(head.toLowerCase());
+
+                            String rest = parts[1].trim();
+                            if (!rest.equalsIgnoreCase("")) {
+                                String[] segs = rest.split(";");
+                                for (String seg : segs) {
+                                    seg = seg.trim();
+                                    if (!seg.equals("")) {
+                                        values.add(seg.toLowerCase());
+                                    }
+                                }
+                            }
+                            processedValues.put(head, values);
+                            acceptedValuesCore.add(head);
+                        } else {
+                            values.add(acceptedValue.toLowerCase());
+                            processedValues.put(acceptedValue, values);
+                            acceptedValuesCore.add(acceptedValue);
+                        }
                     }
                 }
+                cellValidation.setAcceptedValuesCore(acceptedValuesCore);
                 cellValidation.setAcceptedValues(processedValues);
                 columns.put(cellValidation.getColumnHeading(), cellValidation);
             }
