@@ -127,11 +127,11 @@ public class RowValidator {
                             for (String multiValue : multiValues) {
                                 multiValue = multiValue.trim();
                                 if (cellValidation.getAcceptedValues() != null) {
-                                    if (!cellValidation.getAcceptedValues().contains(multiValue)) {
+                                    if (!isAcceptedValue(cellValidation.getAcceptedValues(), multiValue.toLowerCase())) {
                                         valid = false;
                                         errorMessageMap.put(cellValidation.getColumnHeading(),
                                                 new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                        ErrorType.ACCEPTED_VALUES, StringUtils.join(cellValidation.getAcceptedValues(), "; ")));
+                                                        ErrorType.ACCEPTED_VALUES, StringUtils.join(cellValidation.getAcceptedValuesCore(), "; ")));
                                     }
                                 }
                                 if (cellValidation.getPattern() != null) {
@@ -147,11 +147,11 @@ public class RowValidator {
                     } else {
                         if (cellValidation.getAcceptedValues() != null) {
                             if (value != null) {
-                                if (!cellValidation.getAcceptedValues().contains(value)) {
+                                if (!isAcceptedValue(cellValidation.getAcceptedValues(), value.toLowerCase())) {
                                     valid = false;
                                     errorMessageMap.put(cellValidation.getColumnHeading(),
                                             new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                    ErrorType.ACCEPTED_VALUES, StringUtils.join(cellValidation.getAcceptedValues(), "; ")));
+                                                    ErrorType.ACCEPTED_VALUES, StringUtils.join(cellValidation.getAcceptedValuesCore(), "; ")));
                                 }
                             }
                         }
@@ -274,6 +274,16 @@ public class RowValidator {
                 }
             }
         }
+    }
+
+    private boolean isAcceptedValue(Map<String, List<String>> acceptedValues, String value) {
+        for (List<String> list : acceptedValues.values()) {
+            if (list.contains(value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean isEmptyRow(Row currentRow) {

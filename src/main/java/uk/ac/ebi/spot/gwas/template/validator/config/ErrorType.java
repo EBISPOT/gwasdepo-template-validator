@@ -10,6 +10,8 @@ public class ErrorType {
 
     public static final String NO_DATA = "NO_DATA";
 
+    public static final String NO_SAMPLE_DATA = "NO_SAMPLE_DATA";
+
     public static final String INCORRECT_VALUE_RANGE = "INCORRECT_VALUE_RANGE";
 
     public static final String INCORRECT_VALUE_SIZE = "INCORRECT_VALUE_SIZE";
