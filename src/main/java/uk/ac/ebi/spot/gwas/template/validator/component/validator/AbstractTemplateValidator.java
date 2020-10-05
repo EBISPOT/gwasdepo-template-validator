@@ -227,12 +227,17 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                                             }
                                         }
                                     }
-                                    field.set(object, finalValue);
+                                    if (!finalValue.equalsIgnoreCase("")) {
+                                        field.set(object, finalValue);
+                                    }
                                 } else {
-                                    field.set(object, ValidationUtil.trimSpaces(cell.getStringCellValue()));
+                                    String val = ValidationUtil.trimSpaces(cell.getStringCellValue());
+                                    if (!val.equalsIgnoreCase("")) {
+                                        field.set(object, val);
+                                    }
                                 }
                             } else {
-                                field.set(object, ValidationUtil.trimSpaces(cell.getStringCellValue()));
+                                field.set(object, null);
                             }
                         }
                     }
