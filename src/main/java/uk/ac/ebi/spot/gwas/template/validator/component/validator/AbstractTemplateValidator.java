@@ -1,5 +1,6 @@
 package uk.ac.ebi.spot.gwas.template.validator.component.validator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -246,36 +247,47 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                             cellValidation.getBaseType().equalsIgnoreCase(Integer.class.getSimpleName())) {
                         if (cell != null) {
                             Double numericValue = null;
+                            boolean skip = false;
                             try {
-                                numericValue = cell.getNumericCellValue();
+                                String sVal = cell.getStringCellValue();
+                                if (StringUtils.isBlank(sVal)) {
+                                    skip = true;
+                                }
                             } catch (Exception e) {
                             }
-                            if (numericValue != null) {
-                                if (cellValidation.getBaseType().equalsIgnoreCase(Double.class.getSimpleName())) {
-                                    if (field.getType().getSimpleName().equalsIgnoreCase(cellValidation.getBaseType())) {
-                                        field.set(object, numericValue.doubleValue());
+
+                            if (!skip) {
+                                try {
+                                    numericValue = cell.getNumericCellValue();
+                                } catch (Exception e) {
+                                }
+                                if (numericValue != null) {
+                                    if (cellValidation.getBaseType().equalsIgnoreCase(Double.class.getSimpleName())) {
+                                        if (field.getType().getSimpleName().equalsIgnoreCase(cellValidation.getBaseType())) {
+                                            field.set(object, numericValue.doubleValue());
+                                        } else {
+                                            field.set(object, numericValue.toString());
+                                        }
                                     } else {
-                                        field.set(object, numericValue.toString());
+                                        field.set(object, numericValue.intValue());
                                     }
                                 } else {
-                                    field.set(object, numericValue.intValue());
-                                }
-                            } else {
-                                String value = cell.getStringCellValue();
-                                if (value != null) {
-                                    if (!"".equals(value)) {
-                                        try {
-                                            numericValue = Double.parseDouble(value);
-                                            if (cellValidation.getBaseType().equalsIgnoreCase(Double.class.getSimpleName())) {
-                                                if (field.getType().getSimpleName().equalsIgnoreCase(cellValidation.getBaseType())) {
-                                                    field.set(object, numericValue.doubleValue());
+                                    String value = cell.getStringCellValue();
+                                    if (value != null) {
+                                        if (!"".equals(value)) {
+                                            try {
+                                                numericValue = Double.parseDouble(value);
+                                                if (cellValidation.getBaseType().equalsIgnoreCase(Double.class.getSimpleName())) {
+                                                    if (field.getType().getSimpleName().equalsIgnoreCase(cellValidation.getBaseType())) {
+                                                        field.set(object, numericValue.doubleValue());
+                                                    } else {
+                                                        field.set(object, numericValue.toString());
+                                                    }
                                                 } else {
-                                                    field.set(object, numericValue.toString());
+                                                    field.set(object, numericValue.intValue());
                                                 }
-                                            } else {
-                                                field.set(object, numericValue.intValue());
+                                            } catch (Exception e) {
                                             }
-                                        } catch (Exception e) {
                                         }
                                     }
                                 }
