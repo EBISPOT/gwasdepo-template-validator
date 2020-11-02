@@ -5,8 +5,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import uk.ac.ebi.spot.gwas.template.validator.config.ErrorType;
+import uk.ac.ebi.spot.gwas.template.validator.config.ValidatorConstants;
 import uk.ac.ebi.spot.gwas.template.validator.domain.CellValidation;
 import uk.ac.ebi.spot.gwas.template.validator.domain.ErrorMessage;
+import uk.ac.ebi.spot.gwas.template.validator.util.PValueValidator;
 import uk.ac.ebi.spot.gwas.template.validator.util.ValidationUtil;
 
 import java.text.DecimalFormat;
@@ -58,6 +60,22 @@ public class RowValidator {
                     String value = null;
                     if (cellValidation.isRequired()) {
                         boolean err = false;
+                        if (cellValidation.getPattern() != null) {
+                            if (cellValidation.getPattern().equalsIgnoreCase(ValidatorConstants.PATTERN_PVALUE)) {
+                                value = cell.getStringCellValue() != null ? ValidationUtil.trimSpaces(cell.getStringCellValue()) : cell.getStringCellValue();
+
+                                if (value != null) {
+                                    if (!PValueValidator.validate(value, cellValidation.getLowerBound(), cellValidation.getUpperBound())) {
+                                        valid = false;
+                                        errorMessageMap.put(cellValidation.getColumnHeading(),
+                                                new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
+                                                        ErrorType.PVALUE, ValidationUtil.rangeMess(cellValidation.getLowerBound(), cellValidation.getUpperBound())));
+                                        err = true;
+                                    }
+                                }
+                            }
+                        }
+
                         try {
                             if (cell.getCellType().equals(CellType.NUMERIC)) {
                                 Double numericValue = cell.getNumericCellValue();
@@ -67,7 +85,7 @@ public class RowValidator {
                                             valid = false;
                                             errorMessageMap.put(cellValidation.getColumnHeading(),
                                                     new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                            ErrorType.RANGE, cellValidation.getLowerBound() + "-" + cellValidation.getUpperBound()));
+                                                            ErrorType.RANGE, ValidationUtil.rangeMess(cellValidation.getLowerBound(), cellValidation.getUpperBound())));
                                             err = true;
                                         }
                                     }
@@ -76,7 +94,7 @@ public class RowValidator {
                                             valid = false;
                                             errorMessageMap.put(cellValidation.getColumnHeading(),
                                                     new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                            ErrorType.RANGE, cellValidation.getLowerBound() + "-" + cellValidation.getUpperBound()));
+                                                            ErrorType.RANGE, ValidationUtil.rangeMess(cellValidation.getLowerBound(), cellValidation.getUpperBound())));
                                             err = true;
                                         }
                                     }
@@ -101,7 +119,7 @@ public class RowValidator {
                             }
                         }
                     } else {
-                        value = cell.getStringCellValue() != null ? cell.getStringCellValue().trim() : null;
+                        value = cell.getStringCellValue() != null ? ValidationUtil.trimSpaces(cell.getStringCellValue()) : null;
                         if (value != null) {
                             if (value.equalsIgnoreCase("")) {
                                 value = null;
@@ -125,7 +143,7 @@ public class RowValidator {
                             String separator = "\\" + cellValidation.getSeparator();
                             String[] multiValues = value.split(separator);
                             for (String multiValue : multiValues) {
-                                multiValue = multiValue.trim();
+                                multiValue = ValidationUtil.trimSpaces(multiValue);
                                 if (cellValidation.getAcceptedValues() != null) {
                                     if (!isAcceptedValue(cellValidation.getAcceptedValues(), multiValue.toLowerCase())) {
                                         valid = false;
@@ -156,12 +174,14 @@ public class RowValidator {
                             }
                         }
                         if (cellValidation.getPattern() != null) {
-                            if (value != null) {
-                                if (!value.matches(cellValidation.getPattern())) {
-                                    valid = false;
-                                    errorMessageMap.put(cellValidation.getColumnHeading(),
-                                            new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                    ErrorType.PATTERN, cellValidation.getPattern()));
+                            if (!cellValidation.getPattern().equalsIgnoreCase(ValidatorConstants.PATTERN_PVALUE)) {
+                                if (value != null) {
+                                    if (!value.matches(cellValidation.getPattern())) {
+                                        valid = false;
+                                        errorMessageMap.put(cellValidation.getColumnHeading(),
+                                                new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
+                                                        ErrorType.PATTERN, cellValidation.getPattern()));
+                                    }
                                 }
                             }
                         }
@@ -184,7 +204,7 @@ public class RowValidator {
                             }
                             if (value != null) {
                                 try {
-                                    String sVal = cell.getStringCellValue();
+                                    String sVal = ValidationUtil.trimSpaces(cell.getStringCellValue());
                                     if (sVal == null || "".equals(sVal)) {
                                         ok = false;
                                     }
@@ -192,7 +212,7 @@ public class RowValidator {
                                 }
                             } else {
                                 try {
-                                    String sVal = cell.getStringCellValue();
+                                    String sVal = ValidationUtil.trimSpaces(cell.getStringCellValue());
                                     if (sVal != null && !"".equals(sVal)) {
                                         value = Double.parseDouble(sVal);
                                         ok = true;
@@ -215,7 +235,7 @@ public class RowValidator {
                                     valid = false;
                                     errorMessageMap.put(cellValidation.getColumnHeading(),
                                             new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                    ErrorType.RANGE, cellValidation.getLowerBound() + "-" + cellValidation.getUpperBound()));
+                                                    ErrorType.RANGE, ValidationUtil.rangeMess(cellValidation.getLowerBound(), cellValidation.getUpperBound())));
                                 }
                             }
                             if (cellValidation.getUpperBound() != null) {
@@ -223,7 +243,7 @@ public class RowValidator {
                                     valid = false;
                                     errorMessageMap.put(cellValidation.getColumnHeading(),
                                             new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                    ErrorType.RANGE, cellValidation.getLowerBound() + "-" + cellValidation.getUpperBound()));
+                                                    ErrorType.RANGE, ValidationUtil.rangeMess(cellValidation.getLowerBound(), cellValidation.getUpperBound())));
                                 }
                             }
                         }
@@ -232,7 +252,7 @@ public class RowValidator {
                             String value = null;
                             if (cellValidation.isRequired()) {
                                 try {
-                                    value = cell.getStringCellValue();
+                                    value = ValidationUtil.trimSpaces(cell.getStringCellValue());
                                 } catch (Exception e) {
                                     valid = false;
                                     errorMessageMap.put(cellValidation.getColumnHeading(),

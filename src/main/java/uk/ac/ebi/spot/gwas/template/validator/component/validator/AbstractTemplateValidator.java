@@ -192,6 +192,18 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                 field.setAccessible(true);
                 if (cellValidation.getBaseType().equalsIgnoreCase(String.class.getSimpleName())) {
                     if (cell != null) {
+                        if (cellValidation.getPattern() != null) {
+                            if (cellValidation.getPattern().equalsIgnoreCase(ValidatorConstants.PATTERN_PVALUE)) {
+                                if (!StringUtils.isBlank(cell.getStringCellValue())) {
+                                    String val = ValidationUtil.trimSpaces(cell.getStringCellValue());
+                                    if (!val.equalsIgnoreCase("")) {
+                                        field.set(object, val);
+                                    }
+                                }
+                                continue;
+                            }
+                        }
+
                         if (cell.getCellType().equals(CellType.NUMERIC)) {
                             Double numericValue = cell.getNumericCellValue();
                             if (numericValue != null) {
