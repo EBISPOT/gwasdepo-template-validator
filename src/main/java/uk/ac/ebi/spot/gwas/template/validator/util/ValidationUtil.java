@@ -6,16 +6,16 @@ import java.util.List;
 
 public class ValidationUtil {
 
-    public static String rangeMess(Double lowerBound, Double upperBound) {
+    public static String rangeMess(String lowerBound, String upperBound) {
         String mess = "";
         if (lowerBound != null) {
-            mess = Double.toString(lowerBound);
+            mess = lowerBound;
         }
-        mess += "-";
+        mess += " - ";
         if (upperBound != null) {
-            mess += Double.toString(upperBound);
+            mess += upperBound;
         }
-        return mess;
+        return mess.trim();
     }
 
     public static String trimSpaces(String s) {

@@ -69,9 +69,12 @@ public class RowValidator {
                                         valid = false;
                                         errorMessageMap.put(cellValidation.getColumnHeading(),
                                                 new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                        ErrorType.PVALUE, ValidationUtil.rangeMess(cellValidation.getLowerBound(), cellValidation.getUpperBound())));
+                                                        ErrorType.PVALUE, ValidationUtil.rangeMess(
+                                                        PValueValidator.formatBound(cellValidation.getLowerBound()),
+                                                        PValueValidator.formatBound(cellValidation.getUpperBound()))));
                                         err = true;
                                     }
+                                    continue;
                                 }
                             }
                         }
@@ -81,7 +84,7 @@ public class RowValidator {
                                 Double numericValue = cell.getNumericCellValue();
                                 if (numericValue != null) {
                                     if (cellValidation.getLowerBound() != null) {
-                                        if (numericValue < cellValidation.getLowerBound()) {
+                                        if (numericValue < cellValidation.getLowerBoundAsDouble()) {
                                             valid = false;
                                             errorMessageMap.put(cellValidation.getColumnHeading(),
                                                     new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
@@ -90,7 +93,7 @@ public class RowValidator {
                                         }
                                     }
                                     if (cellValidation.getUpperBound() != null) {
-                                        if (numericValue > cellValidation.getUpperBound()) {
+                                        if (numericValue > cellValidation.getUpperBoundAsDouble()) {
                                             valid = false;
                                             errorMessageMap.put(cellValidation.getColumnHeading(),
                                                     new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
@@ -231,7 +234,7 @@ public class RowValidator {
                         }
                         if (value != null) {
                             if (cellValidation.getLowerBound() != null) {
-                                if (value < cellValidation.getLowerBound()) {
+                                if (value < cellValidation.getLowerBoundAsDouble()) {
                                     valid = false;
                                     errorMessageMap.put(cellValidation.getColumnHeading(),
                                             new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
@@ -239,7 +242,7 @@ public class RowValidator {
                                 }
                             }
                             if (cellValidation.getUpperBound() != null) {
-                                if (value > cellValidation.getUpperBound()) {
+                                if (value > cellValidation.getUpperBoundAsDouble()) {
                                     valid = false;
                                     errorMessageMap.put(cellValidation.getColumnHeading(),
                                             new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,

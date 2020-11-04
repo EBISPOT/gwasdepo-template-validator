@@ -146,7 +146,7 @@ public class TemplateValidatorServiceTest extends IntegrationTest {
         assertEquals(1, validationOutcome.getErrorMessages().size());
         assertTrue(validationOutcome.getErrorMessages().containsKey("association"));
         assertEquals(1, validationOutcome.getErrorMessages().get("association").size());
-        assertEquals("Column 'p-value' in row(s) [5] contains incorrect value. Accepted values should be in the range: '0.0-1.0E-5'", validationOutcome.getErrorMessages().get("association").get(0));
+        assertEquals("Column 'p-value' in row(s) [5] contains incorrect value. Accepted values should be in the range: '0 - 0.00001'", validationOutcome.getErrorMessages().get("association").get(0));
         submissionTemplateReader.close();
     }
 
@@ -158,7 +158,7 @@ public class TemplateValidatorServiceTest extends IntegrationTest {
         assertEquals(1, validationOutcome.getErrorMessages().size());
         assertTrue(validationOutcome.getErrorMessages().containsKey("association"));
         assertEquals(1, validationOutcome.getErrorMessages().get("association").size());
-        assertEquals("Column 'p-value' in row(s) [6] contains incorrect value. Accepted values should be in the range: '0.0-1.0E-5'", validationOutcome.getErrorMessages().get("association").get(0));
+        assertEquals("Column 'p-value' in row(s) [6] contains incorrect value. Accepted values should be in the range: '0 - 0.00001'", validationOutcome.getErrorMessages().get("association").get(0));
         submissionTemplateReader.close();
     }
 

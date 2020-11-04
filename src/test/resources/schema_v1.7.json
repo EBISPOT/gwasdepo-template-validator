@@ -292,7 +292,7 @@
         "multivalue": false,
         "size": -1,
         "pattern": "$p-value$",
-        "lowerBound": -5
+        "lowerBound": "1|-5"
       },
       {
         "columnName": "pvalue_text",

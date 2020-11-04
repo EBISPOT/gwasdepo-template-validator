@@ -67,7 +67,7 @@ public class PValueTests extends IntegrationTest {
         assertFalse(validationOutcome.isValid());
         assertEquals(1, validationOutcome.getErrorMessages().size());
         assertTrue(validationOutcome.getErrorMessages().containsKey("association"));
-        assertEquals("Column 'p-value' in row(s) [7] contains incorrect value. Expected p-value exponent should be in the range: '-5.0-'", validationOutcome.getErrorMessages().get("association").get(0));
+        assertEquals("Column 'p-value' in row(s) [7] contains incorrect value. Expected p-value exponent should be in the range: '1.0e-5 -'", validationOutcome.getErrorMessages().get("association").get(0));
     }
 
     @Test
