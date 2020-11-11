@@ -24,6 +24,8 @@ public class ErrorType {
 
     public static final String RANGE = "RANGE";
 
+    public static final String PVALUE = "PVALUE";
+
     public static final String CONTEXT = "context";
 
     public static final String INVALID_FILE = "INVALID_FILE";
