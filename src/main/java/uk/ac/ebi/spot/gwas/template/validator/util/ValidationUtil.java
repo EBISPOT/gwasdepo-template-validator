@@ -6,7 +6,22 @@ import java.util.List;
 
 public class ValidationUtil {
 
+    public static String rangeMess(String lowerBound, String upperBound) {
+        String mess = "";
+        if (lowerBound != null) {
+            mess = lowerBound;
+        }
+        mess += " - ";
+        if (upperBound != null) {
+            mess += upperBound;
+        }
+        return mess.trim();
+    }
+
     public static String trimSpaces(String s) {
+        if (s == null) {
+            return s;
+        }
         String result = s.trim();
         result = result.replaceAll("\\u00A0", "");
         result = result.replaceAll("\\u2007", "");

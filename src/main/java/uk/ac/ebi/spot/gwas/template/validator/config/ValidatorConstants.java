@@ -11,4 +11,6 @@ public class ValidatorConstants {
     public static final String SAMPLE = "sample";
 
     public static final String SCHEMA = "SCHEMA";
+
+    public static final String PATTERN_PVALUE = "$p-value$";
 }

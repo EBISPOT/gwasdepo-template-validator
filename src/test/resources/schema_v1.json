@@ -180,8 +180,8 @@
         "columnHeading": "p-value",
         "required": true,
         "default": true,
-        "lowerBound": 0,
-        "upperBound": 0.00001
+        "lowerBound": "0",
+        "upperBound": "0.00001"
       },
       {
         "columnName": "pvalue_text",

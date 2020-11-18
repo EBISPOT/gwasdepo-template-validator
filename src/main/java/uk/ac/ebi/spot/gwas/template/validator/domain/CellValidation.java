@@ -25,9 +25,9 @@ public class CellValidation implements Serializable {
 
     private String pattern;
 
-    private Double lowerBound;
+    private String lowerBound;
 
-    private Double upperBound;
+    private String upperBound;
 
     private Integer size;
 
@@ -47,7 +47,7 @@ public class CellValidation implements Serializable {
     }
 
     public CellValidation(String columnName, String baseType, String columnHeading, boolean required,
-                          Double lowerBound, Double upperBound) {
+                          String lowerBound, String upperBound) {
         this.columnName = columnName;
         this.columnHeading = columnHeading;
         this.baseType = baseType;
@@ -96,19 +96,27 @@ public class CellValidation implements Serializable {
         this.pattern = pattern;
     }
 
-    public Double getLowerBound() {
+    public String getLowerBound() {
         return lowerBound;
     }
 
-    public void setLowerBound(Double lowerBound) {
+    public Double getLowerBoundAsDouble() {
+        return lowerBound != null ? Double.parseDouble(lowerBound) : null;
+    }
+
+    public void setLowerBound(String lowerBound) {
         this.lowerBound = lowerBound;
     }
 
-    public Double getUpperBound() {
+    public String getUpperBound() {
         return upperBound;
     }
 
-    public void setUpperBound(Double upperBound) {
+    public Double getUpperBoundAsDouble() {
+        return upperBound != null ? Double.parseDouble(upperBound) : null;
+    }
+
+    public void setUpperBound(String upperBound) {
         this.upperBound = upperBound;
     }
 
