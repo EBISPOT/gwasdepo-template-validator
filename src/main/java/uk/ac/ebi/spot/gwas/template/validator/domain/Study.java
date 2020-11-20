@@ -35,6 +35,8 @@ public class Study {
 
     private String summary_statistics_file;
 
+    private String raw_sumstats_file;
+
     private String checksum;
 
     private String summary_statistics_assembly;
@@ -207,5 +209,13 @@ public class Study {
 
     public void setReadme_file(String readme_file) {
         this.readme_file = readme_file;
+    }
+
+    public String getRaw_sumstats_file() {
+        return raw_sumstats_file;
+    }
+
+    public void setRaw_sumstats_file(String raw_sumstats_file) {
+        this.raw_sumstats_file = raw_sumstats_file;
     }
 }
