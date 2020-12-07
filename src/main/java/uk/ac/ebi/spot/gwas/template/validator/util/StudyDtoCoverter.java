@@ -26,6 +26,9 @@ public class StudyDtoCoverter {
                 study.getSummary_statistics_assembly(),
                 study.getReadme_file(),
                 study.getCohort(),
-                study.getCohort_id());
+                study.getCohort_id(),
+                null,
+                null,
+                null);
     }
 }
