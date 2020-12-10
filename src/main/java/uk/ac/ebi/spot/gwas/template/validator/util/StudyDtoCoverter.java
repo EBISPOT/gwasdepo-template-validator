@@ -21,10 +21,14 @@ public class StudyDtoCoverter {
                 study.getBackground_trait(),
                 study.getBackground_efo_trait(),
                 study.getSummary_statistics_file(),
+                study.getRaw_sumstats_file(),
                 study.getChecksum(),
                 study.getSummary_statistics_assembly(),
                 study.getReadme_file(),
                 study.getCohort(),
-                study.getCohort_id());
+                study.getCohort_id(),
+                null,
+                null,
+                null);
     }
 }
