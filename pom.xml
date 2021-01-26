@@ -17,6 +17,10 @@
         <version>1.0.3</version>
     </parent>
 
+    <properties>
+        <sonar.organization>gwas-ebi</sonar.organization>
+    </properties>
+
     <scm>
         <connection>scm:git:https://github.com/EBISPOT/gwasdepo-template-validator.git</connection>
         <developerConnection>scm:git:https://github.com/EBISPOT/gwasdepo-template-validator.git</developerConnection>
@@ -35,6 +39,31 @@
             <url>https://www.ebi.ac.uk/spot/nexus/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>spot-releases</id>
+            <name>Releases</name>
+            <url>https://www.ebi.ac.uk/spot/nexus/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spot-snapshots</id>
+            <name>Snapshot</name>
+            <url>https://www.ebi.ac.uk/spot/nexus/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -105,5 +134,45 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.7.201606060606</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+        <!--<pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.4.0.905</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>-->
+    </build>
 
 </project>
