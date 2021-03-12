@@ -30,6 +30,6 @@ public class StudyDtoCoverter {
                 null,
                 null,
                 null,
-                false);
+                null);
     }
 }
