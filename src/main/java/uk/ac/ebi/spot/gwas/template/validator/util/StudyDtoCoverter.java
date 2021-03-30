@@ -29,6 +29,7 @@ public class StudyDtoCoverter {
                 study.getCohort_id(),
                 null,
                 null,
+                null,
                 null);
     }
 }
