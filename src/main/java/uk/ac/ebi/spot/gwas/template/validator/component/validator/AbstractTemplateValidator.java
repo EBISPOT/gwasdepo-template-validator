@@ -287,8 +287,7 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                                     String value = cell.getStringCellValue();
                                     if (value != null) {
                                         if (!"".equals(value)) {
-                                            value = StringUtils.stripStart(value, "\u00A0");
-                                            value = StringUtils.stripEnd(value, "\u00A0");
+                                            value = ValidationUtil.trimSpaces(value);
                                             try {
                                                 numericValue = Double.parseDouble(value);
                                                 if (cellValidation.getBaseType().equalsIgnoreCase(Double.class.getSimpleName())) {
