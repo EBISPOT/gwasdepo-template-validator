@@ -7,6 +7,7 @@ public class StudyDtoCoverter {
 
     public static StudyDto convert(Study study) {
         return new StudyDto(study.getStudy_tag(),
+                null,
                 study.getStudy_accession(),
                 study.getGenotyping_technology(),
                 study.getArray_manufacturer(),
@@ -30,6 +31,11 @@ public class StudyDtoCoverter {
                 null,
                 null,
                 null,
-                null);
+                null,
+                null,
+                null,
+                study.getSs_flag(),
+                study.getPooled_flag(),
+                study.getGxe_flag());
     }
 }
