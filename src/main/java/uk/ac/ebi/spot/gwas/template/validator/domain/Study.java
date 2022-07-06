@@ -47,6 +47,12 @@ public class Study {
 
     private String cohort_id;
 
+    private Boolean ss_flag;
+
+    private Boolean gxe_flag;
+
+    private Boolean pooled_flag;
+
     public Study() {
 
     }
@@ -217,5 +223,29 @@ public class Study {
 
     public void setRaw_sumstats_file(String raw_sumstats_file) {
         this.raw_sumstats_file = raw_sumstats_file;
+    }
+
+    public Boolean getSs_flag() {
+        return ss_flag;
+    }
+
+    public void setSs_flag(Boolean ss_flag) {
+        this.ss_flag = ss_flag;
+    }
+
+    public Boolean getGxe_flag() {
+        return gxe_flag;
+    }
+
+    public void setGxe_flag(Boolean gxe_flag) {
+        this.gxe_flag = gxe_flag;
+    }
+
+    public Boolean getPooled_flag() {
+        return pooled_flag;
+    }
+
+    public void setPooled_flag(Boolean pooled_flag) {
+        this.pooled_flag = pooled_flag;
     }
 }
