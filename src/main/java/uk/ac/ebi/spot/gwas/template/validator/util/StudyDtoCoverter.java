@@ -36,6 +36,7 @@ public class StudyDtoCoverter {
                 null,
                 null,
                 null,
+                null,
 
                 study.getSs_flag(),
                 study.getPooled_flag(),

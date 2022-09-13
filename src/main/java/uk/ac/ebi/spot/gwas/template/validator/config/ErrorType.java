@@ -8,6 +8,10 @@ public class ErrorType {
 
     public static final String NON_UNIQUE_STUDY_TAG = "NON_UNIQUE_STUDY_TAG";
 
+    public static final String NON_UNIQUE_CHECKSUM = "NON_UNIQUE_CHECKSUM";
+
+    public static final String NON_UNIQUE_SUMMARY_STATISTICS_FILE = "NON_UNIQUE_SUMMARY_STATISTICS_FILE";
+
     public static final String NO_DATA = "NO_DATA";
 
     public static final String NO_SAMPLE_DATA = "NO_SAMPLE_DATA";

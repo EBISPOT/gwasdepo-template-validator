@@ -24,6 +24,10 @@ public class RowValidator {
 
     private String studyTag;
 
+    private String checksum;
+
+    private String summary_statistics_file;
+
     private boolean valid;
 
     private boolean empty;
@@ -194,6 +198,18 @@ public class RowValidator {
                             studyTag = value.trim();
                         }
                     }
+
+                    if (cellValidation.getColumnName().equalsIgnoreCase("summary_statistics_file")) {
+                        if (value != null) {
+                            summary_statistics_file = value.trim().equals("NR") ? null : value.trim();
+                        }
+                    }
+
+                    if (cellValidation.getColumnName().equalsIgnoreCase("checksum")) {
+                        if (value != null) {
+                            checksum = value.trim().equals("NR") ? null : value.trim();
+                        }
+                    }
                 } else {
                     if (cellValidation.getBaseType().equalsIgnoreCase(Double.class.getSimpleName()) ||
                             cellValidation.getBaseType().equalsIgnoreCase(Integer.class.getSimpleName())) {
@@ -326,6 +342,14 @@ public class RowValidator {
 
     public String getStudyTag() {
         return studyTag;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public String getSummary_statistics_file() {
+        return summary_statistics_file;
     }
 
     public boolean isEmpty() {
