@@ -53,6 +53,8 @@ public class Study {
 
     private Boolean pooled_flag;
 
+    private String submissionId;
+
     public Study() {
 
     }
@@ -247,5 +249,13 @@ public class Study {
 
     public void setPooled_flag(Boolean pooled_flag) {
         this.pooled_flag = pooled_flag;
+    }
+
+    public String getSubmissionId() {
+        return submissionId;
+    }
+
+    public void setSubmissionId(String submissionId) {
+        this.submissionId = submissionId;
     }
 }
