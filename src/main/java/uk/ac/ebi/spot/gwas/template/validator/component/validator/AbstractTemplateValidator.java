@@ -40,6 +40,10 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
         Map<Pair<String, ErrorMessage>, List<Integer>> errorMap = new HashMap<>();
         List<String> orphanStudies = new ArrayList<>();
         List<String> duplicatedStudyTags = new ArrayList<>();
+        Map<String, Integer> checksums = new HashMap<>();
+        List<String> duplicatedChecksums = new ArrayList<>();
+        Map<String, Integer> summary_statistics_files = new HashMap<>();
+        List<String>  duplicatedSummary_statistics_files = new ArrayList<>();
 
         while (rowIterator.hasNext()) {
             count++;
@@ -67,6 +71,24 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
                         orphanStudies.add(Integer.toString(count));
                         valid = false;
                     }
+                    if (sheet.getSheetName().equalsIgnoreCase(ValidatorConstants.STUDY)) {
+                        if (rowValidator.getChecksum() != null) {
+                            if (!checksums.containsKey(rowValidator.getChecksum())) {
+                                checksums.put(rowValidator.getChecksum(), 1);
+                            }
+                            else {
+                                duplicatedChecksums.add(rowValidator.getChecksum());
+                            }
+                        }
+                        if (rowValidator.getSummary_statistics_file() != null) {
+                            if (!summary_statistics_files.containsKey(rowValidator.getSummary_statistics_file())) {
+                                summary_statistics_files.put(rowValidator.getSummary_statistics_file(), 1);
+                            }
+                            else {
+                                duplicatedSummary_statistics_files.add(rowValidator.getSummary_statistics_file());
+                            }
+                        }
+                    }
                 }
 
                 if (valid) {
@@ -93,6 +115,16 @@ public abstract class AbstractTemplateValidator implements TemplateValidator {
         if (!duplicatedStudyTags.isEmpty()) {
             valid = false;
             generalError = Pair.of(ErrorType.NON_UNIQUE_STUDY_TAG + "!", duplicatedStudyTags);
+        }
+
+        if (!duplicatedChecksums.isEmpty()) {
+            valid = false;
+            generalError = Pair.of(ErrorType.NON_UNIQUE_CHECKSUM + "!", duplicatedChecksums);
+        }
+
+        if (!duplicatedSummary_statistics_files.isEmpty()) {
+            valid = false;
+            generalError = Pair.of(ErrorType.NON_UNIQUE_SUMMARY_STATISTICS_FILE + "!", duplicatedSummary_statistics_files);
         }
 
         if (valid) {
