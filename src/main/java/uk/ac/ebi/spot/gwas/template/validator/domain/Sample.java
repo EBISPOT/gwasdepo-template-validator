@@ -25,6 +25,10 @@ public class Sample {
 
     private String country_recruitement;
 
+    private Boolean case_control_study;
+
+    private String ancestry_method;
+
     public Sample() {
 
     }
@@ -107,5 +111,21 @@ public class Sample {
 
     public void setCountry_recruitement(String country_recruitement) {
         this.country_recruitement = country_recruitement;
+    }
+
+    public Boolean getCase_control_study() {
+        return case_control_study;
+    }
+
+    public void setCase_control_study(Boolean case_control_study) {
+        this.case_control_study = case_control_study;
+    }
+
+    public String getAncestry_method() {
+        return ancestry_method;
+    }
+
+    public void setAncestry_method(String ancestry_method) {
+        this.ancestry_method = ancestry_method;
     }
 }

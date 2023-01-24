@@ -40,7 +40,12 @@ public class StudyDtoCoverter {
                 study.getSs_flag(),
                 study.getPooled_flag(),
                 study.getGxe_flag(),
-                study.getSubmissionId());
+                study.getSubmissionId(),
+                study.getImputation_panel(),
+                study.getImputation_software(),
+                study.getAdjusted_covariates(),
+                study.getNeg_log_p_value(),
+                study.getEffect_allele_frequency_lower_limit());
 
     }
 }
