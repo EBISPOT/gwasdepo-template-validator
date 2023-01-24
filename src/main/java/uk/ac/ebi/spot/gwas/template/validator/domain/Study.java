@@ -9,6 +9,7 @@ public class Study {
 
     private String study_accession;
 
+
     private String genotyping_technology;
 
     private String array_manufacturer;
@@ -54,6 +55,16 @@ public class Study {
     private Boolean pooled_flag;
 
     private String submissionId;
+
+    private String imputation_panel;
+
+    private String imputation_software;
+
+    private String adjusted_covariates;
+
+    private Boolean neg_log_p_value;
+
+    private Double effect_allele_frequency_lower_limit;
 
     public Study() {
 
@@ -257,5 +268,45 @@ public class Study {
 
     public void setSubmissionId(String submissionId) {
         this.submissionId = submissionId;
+    }
+
+    public String getImputation_panel() {
+        return imputation_panel;
+    }
+
+    public void setImputation_panel(String imputation_panel) {
+        this.imputation_panel = imputation_panel;
+    }
+
+    public String getImputation_software() {
+        return imputation_software;
+    }
+
+    public void setImputation_software(String imputation_software) {
+        this.imputation_software = imputation_software;
+    }
+
+    public String getAdjusted_covariates() {
+        return adjusted_covariates;
+    }
+
+    public void setAdjusted_covariates(String adjusted_covariates) {
+        this.adjusted_covariates = adjusted_covariates;
+    }
+
+    public Boolean getNeg_log_p_value() {
+        return neg_log_p_value;
+    }
+
+    public void setNeg_log_p_value(Boolean neg_log_p_value) {
+        this.neg_log_p_value = neg_log_p_value;
+    }
+
+    public Double getEffect_allele_frequency_lower_limit() {
+        return effect_allele_frequency_lower_limit;
+    }
+
+    public void setEffect_allele_frequency_lower_limit(Double effect_allele_frequency_lower_limit) {
+        this.effect_allele_frequency_lower_limit = effect_allele_frequency_lower_limit;
     }
 }
