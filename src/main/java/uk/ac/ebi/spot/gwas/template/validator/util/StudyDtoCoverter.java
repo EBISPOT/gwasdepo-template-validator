@@ -44,8 +44,9 @@ public class StudyDtoCoverter {
                 study.getImputation_panel(),
                 study.getImputation_software(),
                 study.getAdjusted_covariates(),
-                study.getNeg_log_p_value(),
-                study.getEffect_allele_frequency_lower_limit());
+                study.getMinor_allele_frequency_lower_limit(),
+                study.getSex(),
+                study.getCoordinate_system());
 
     }
 }
