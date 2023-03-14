@@ -62,9 +62,11 @@ public class Study {
 
     private String adjusted_covariates;
 
-    private Boolean neg_log_p_value;
+    private Double minor_allele_frequency_lower_limit;
 
-    private Double effect_allele_frequency_lower_limit;
+    private String sex;
+
+    private String coordinate_system;
 
     public Study() {
 
@@ -294,19 +296,27 @@ public class Study {
         this.adjusted_covariates = adjusted_covariates;
     }
 
-    public Boolean getNeg_log_p_value() {
-        return neg_log_p_value;
+    public Double getMinor_allele_frequency_lower_limit() {
+        return minor_allele_frequency_lower_limit;
     }
 
-    public void setNeg_log_p_value(Boolean neg_log_p_value) {
-        this.neg_log_p_value = neg_log_p_value;
+    public void setMinor_allele_frequency_lower_limit(Double minor_allele_frequency_lower_limit) {
+        this.minor_allele_frequency_lower_limit = minor_allele_frequency_lower_limit;
     }
 
-    public Double getEffect_allele_frequency_lower_limit() {
-        return effect_allele_frequency_lower_limit;
+    public String getSex() {
+        return sex;
     }
 
-    public void setEffect_allele_frequency_lower_limit(Double effect_allele_frequency_lower_limit) {
-        this.effect_allele_frequency_lower_limit = effect_allele_frequency_lower_limit;
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getCoordinate_system() {
+        return coordinate_system;
+    }
+
+    public void setCoordinate_system(String coordinate_system) {
+        this.coordinate_system = coordinate_system;
     }
 }
