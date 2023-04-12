@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.spot.gwas.template.validator.config.ErrorType;
 import uk.ac.ebi.spot.gwas.template.validator.config.ValidatorConstants;
 import uk.ac.ebi.spot.gwas.template.validator.domain.CellValidation;
@@ -16,6 +18,8 @@ import java.util.*;
 
 public class RowValidator {
 
+
+    private static final Logger log = LoggerFactory.getLogger(RowValidator.class);
     public final static String BOOL_VALUE_YES = "yes";
 
     public final static String BOOL_VALUE_NO = "no";
@@ -23,6 +27,10 @@ public class RowValidator {
     private Map<String, CellValidation> columns;
 
     private String studyTag;
+
+    private String checksum;
+
+    private String summary_statistics_file;
 
     private boolean valid;
 
@@ -110,6 +118,7 @@ public class RowValidator {
                                 value = cell.getStringCellValue() != null ? cell.getStringCellValue().trim() : cell.getStringCellValue();
                             }
                         } catch (Exception e) {
+                            log.error("Exception in row "+e.getMessage(),e);
                             valid = false;
                             errorMessageMap.put(cellValidation.getColumnHeading(),
                                     new ErrorMessage(ErrorType.MISSING_VALUE, null, null));
@@ -156,11 +165,15 @@ public class RowValidator {
                                     }
                                 }
                                 if (cellValidation.getPattern() != null) {
-                                    if (!multiValue.matches(cellValidation.getPattern())) {
-                                        valid = false;
-                                        errorMessageMap.put(cellValidation.getColumnHeading(),
-                                                new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                        ErrorType.PATTERN, cellValidation.getPattern()));
+                                    try {
+                                        if (!multiValue.matches(cellValidation.getPattern())) {
+                                            valid = false;
+                                            errorMessageMap.put(cellValidation.getColumnHeading(),
+                                                    new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
+                                                            ErrorType.PATTERN, cellValidation.getPattern()));
+                                        }
+                                    } catch(Exception ex ){
+                                        log.error("Exception in Regex match"+ex.getMessage(),ex);
                                     }
                                 }
                             }
@@ -179,11 +192,15 @@ public class RowValidator {
                         if (cellValidation.getPattern() != null) {
                             if (!cellValidation.getPattern().equalsIgnoreCase(ValidatorConstants.PATTERN_PVALUE)) {
                                 if (value != null) {
-                                    if (!value.matches(cellValidation.getPattern())) {
-                                        valid = false;
-                                        errorMessageMap.put(cellValidation.getColumnHeading(),
-                                                new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
-                                                        ErrorType.PATTERN, cellValidation.getPattern()));
+                                    try {
+                                        if (!value.matches(cellValidation.getPattern())) {
+                                            valid = false;
+                                            errorMessageMap.put(cellValidation.getColumnHeading(),
+                                                    new ErrorMessage(ErrorType.INCORRECT_VALUE_RANGE,
+                                                            ErrorType.PATTERN, cellValidation.getPattern()));
+                                        }
+                                    } catch(Exception ex) {
+                                        log.error("Exception in Regex"+ex.getMessage(),ex);
                                     }
                                 }
                             }
@@ -192,6 +209,18 @@ public class RowValidator {
                     if (cellValidation.getColumnName().equalsIgnoreCase(studyTagColumnName)) {
                         if (value != null) {
                             studyTag = value.trim();
+                        }
+                    }
+
+                    if (cellValidation.getColumnName().equalsIgnoreCase("summary_statistics_file")) {
+                        if (value != null) {
+                            summary_statistics_file = value.trim().equals("NR") ? null : value.trim();
+                        }
+                    }
+
+                    if (cellValidation.getColumnName().equalsIgnoreCase("checksum")) {
+                        if (value != null) {
+                            checksum = value.trim().equals("NR") ? null : value.trim();
                         }
                     }
                 } else {
@@ -223,6 +252,7 @@ public class RowValidator {
                                         ok = false;
                                     }
                                 } catch (Exception e) {
+                                    log.error("Exception in Row validation2 "+e.getMessage(),e);
                                     ok = false;
                                 }
                             }
@@ -257,6 +287,7 @@ public class RowValidator {
                                 try {
                                     value = ValidationUtil.trimSpaces(cell.getStringCellValue());
                                 } catch (Exception e) {
+                                    log.error("Exception in Row validation3 "+e.getMessage(),e);
                                     valid = false;
                                     errorMessageMap.put(cellValidation.getColumnHeading(),
                                             new ErrorMessage(ErrorType.MISSING_VALUE, null, null));
@@ -326,6 +357,14 @@ public class RowValidator {
 
     public String getStudyTag() {
         return studyTag;
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public String getSummary_statistics_file() {
+        return summary_statistics_file;
     }
 
     public boolean isEmpty() {

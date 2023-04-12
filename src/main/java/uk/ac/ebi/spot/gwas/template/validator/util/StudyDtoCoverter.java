@@ -36,10 +36,17 @@ public class StudyDtoCoverter {
                 null,
                 null,
                 null,
-
+                null,
                 study.getSs_flag(),
                 study.getPooled_flag(),
-                study.getGxe_flag());
+                study.getGxe_flag(),
+                study.getSubmissionId(),
+                study.getImputation_panel(),
+                study.getImputation_software(),
+                study.getAdjusted_covariates(),
+                study.getMinor_allele_frequency_lower_limit(),
+                study.getSex(),
+                study.getCoordinate_system());
 
     }
 }

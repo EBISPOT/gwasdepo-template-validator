@@ -15,7 +15,9 @@ public class SampleDtoConverter {
                 sample.getAncestry_category(),
                 sample.getAncestry(),
                 sample.getAncestry_description(),
-                sample.getCountry_recruitement());
+                sample.getCountry_recruitement(),
+                sample.getCase_control_study(),
+                sample.getAncestry_method());
     }
 
 }
