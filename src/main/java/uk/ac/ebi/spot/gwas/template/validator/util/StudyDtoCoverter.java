@@ -46,7 +46,8 @@ public class StudyDtoCoverter {
                 study.getAdjusted_covariates(),
                 study.getMinor_allele_frequency_lower_limit(),
                 study.getSex(),
-                study.getCoordinate_system());
+                study.getCoordinate_system(),
+                study.getAnalysis_software());
 
     }
 }

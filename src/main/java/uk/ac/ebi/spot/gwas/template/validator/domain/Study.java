@@ -68,6 +68,8 @@ public class Study {
 
     private String coordinate_system;
 
+    private String analysis_software;
+
     public Study() {
 
     }
@@ -318,5 +320,13 @@ public class Study {
 
     public void setCoordinate_system(String coordinate_system) {
         this.coordinate_system = coordinate_system;
+    }
+
+    public String getAnalysis_software() {
+        return analysis_software;
+    }
+
+    public void setAnalysis_software(String analysis_software) {
+        this.analysis_software = analysis_software;
     }
 }
